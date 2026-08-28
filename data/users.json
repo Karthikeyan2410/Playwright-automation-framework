@@ -1,0 +1,10 @@
+[
+  {
+    "username": "standard_user",
+    "shouldPass": true
+  },
+  {
+    "username": "locked_out_user",
+    "shouldPass": false
+  }
+]

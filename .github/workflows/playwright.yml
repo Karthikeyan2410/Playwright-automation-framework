@@ -6,6 +6,15 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -26,16 +35,25 @@ jobs:
         run: npx playwright test
         continue-on-error: true
 
-      - name: Upload Intentional Failure Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report-failure-demo
-          path: playwright-report/  # Adjust if this folder has a custom name
-
-      - name: Upload Passing Test Suite Report
+      - name: Upload Downloadable Artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report-passing-suite
-          path: playwright-report/  # Adjust to your second report folder path
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        if: always()
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        if: always()
+        with:
+          path: playwright-report/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        if: always()

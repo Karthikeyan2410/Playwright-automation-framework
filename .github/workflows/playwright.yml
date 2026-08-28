@@ -1,15 +1,41 @@
-- name: Upload Intentional Failure Report (Debug Demo)
-  uses: actions/upload-artifact@v4
-  if: always()
-  with:
-    name: playwright-report-failure-demo
-    path: path/to/failed-report/  # Replace with actual directory path
-    retention-days: 30
+name: Playwright Tests
 
-- name: Upload Passing Test Suite Report
-  uses: actions/upload-artifact@v4
-  if: always()
-  with:
-    name: playwright-report-passing-suite
-    path: path/to/passed-report/  # Replace with actual directory path
-    retention-days: 30
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        continue-on-error: true
+
+      - name: Upload Intentional Failure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-failure-demo
+          path: playwright-report/  # Adjust if this folder has a custom name
+
+      - name: Upload Passing Test Suite Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-passing-suite
+          path: playwright-report/  # Adjust to your second report folder path

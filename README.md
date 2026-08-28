@@ -9,11 +9,10 @@ An end-to-end test automation suite built with Playwright, demonstrating Page Ob
 ---
 
 ## Key Features
-* **Design Pattern**: Page Object Model (POM) for clean code separation and maintainability.
-* **CI/CD Integration**: Automated test execution on every push using GitHub Actions.
-* **Trace & Debugging**: Configured with full trace viewer, video recordings, and screenshots on failure.
-* **Dual Reporting**: Exports interactive HTML reports directly published to GitHub Pages and stored as build artifacts.
-
+## 🧪 Test Suite & Coverage
+* **REST API Automation (`apiTest.spec.ts`)**: Validates HTTP GET and POST endpoints, checking status codes and response JSON payloads directly within Playwright.
+* **Data-Driven Testing (`datadriven.spec.ts`)**: Parameterized test runs executing login validations against multiple user roles (`standard_user`, `locked_out_user`).
+* **Environment & Config Management (`envConfig.spec.ts`)**: Secure setup handling environment variables dynamically without hardcoding credentials.
 ## Tech Stack
 * **Language**: JavaScript / TypeScript
 * **Testing Framework**: Playwright
